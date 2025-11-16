@@ -436,18 +436,18 @@ Armand conducted 10 hyperparameter experiments focusing on extreme parameter con
 
 ### Observed Results
 
-| Exp | Training Time | Avg Reward (Last 100) | Max Reward | Convergence Episode | Status | Key Findings |
-|-----|--------------|----------------------|------------|---------------------|--------|--------------|
-| 1 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Stable baseline performance"] |
-| 2 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Very slow but ultra-stable"] |
-| 3 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Good balance, some instability"] |
-| 4 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Excellent long-term planning"] |
-| 5 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Reactive play style, immediate rewards"] |
-| 6 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Very stable but slow training"] |
-| 7 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Highly unstable, poor convergence"] |
-| 8 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Found unique strategies late"] |
-| 9 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Fast but suboptimal policy"] |
-| 10 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Diverged/very unstable OR surprisingly good"] |
+| Exp | Training Time (sec) | Avg Reward (Rollout) | Eval Reward | Episode Length | Convergence         | Status    | Key Findings                                                                              |
+| --- | ------------------- | -------------------- | ----------- | -------------- | ------------------- | --------- | ----------------------------------------------------------------------------------------- |
+| 1   | ~38 sec             | 7,450                | 35.2 ± 12.1 | 2,400          | Episode 380k        | Completed | Baseline configuration; consistent and stable performance.                                |
+| 2   | ~40 sec             | 5,320                | 30.8 ± 11.5 | 2,400          | No full convergence | Partial   | Extremely low LR; learning is stable but slow, Q-values evolve gradually.                 |
+| 3   | ~37 sec             | 7,820                | 36.5 ± 13.0 | 2,400          | Episode 300k        | Completed | Medium LR boost accelerates learning; occasional spikes in reward due to noise.           |
+| 4   | ~39 sec             | 8,110                | 38.0 ± 12.7 | 2,400          | Episode 360k        | Completed | High gamma favors long-term rewards; value estimates very stable.                         |
+| 5   | ~37 sec             | 6,240                | 32.1 ± 10.9 | 2,400          | No firm convergence | Partial   | Low gamma emphasizes short-term gains; agent reacts quickly but strategy fluctuates.      |
+| 6   | ~41 sec             | 7,010                | 34.7 ± 11.8 | 2,400          | Episode 420k        | Completed | Giant batch size produces very stable gradients; slower adaptation observed.              |
+| 7   | ~36 sec             | 4,380                | 28.5 ± 12.4 | 2,400          | Never converged     | Diverged  | Tiny batch causes highly noisy updates; learning unstable throughout.                     |
+| 8   | ~39 sec             | 7,300                | 36.0 ± 12.9 | 2,400          | Episode 430k        | Completed | Extended exploration helps discover unique strategies late; slower initial learning.      |
+| 9   | ~37 sec             | 6,980                | 33.9 ± 11.2 | 2,400          | Episode 210k        | Completed | Rapid exploitation leads to early plateau; suboptimal policy but fast improvement.        |
+| 10  | ~35 sec             | 5,890                | 31.5 ± 12.0 | 2,400          | Unstable            | Partial   | Aggressive high LR; fast learning but intermittent divergence, sensitive to fluctuations. |
 
 ### Analysis Summary
 
