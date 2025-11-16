@@ -3,10 +3,17 @@
 
 This project implements a Deep Q-Network (DQN) agent to play the Atari Assault game using Stable Baselines3 and Gymnasium. The implementation includes:
 
-- **Task 1**: Training script (`train.py`) with DQN agent, policy comparison (CNN vs MLP), and 10 hyperparameter experiments
+- **Task 1**: Training script (`train.py`) with DQN agent, policy comparison (CNN vs MLP), and 10 hyperparameter experiments **per team member**
 - **Task 2**: Playing script (`play.py`) with trained model loading and GreedyQPolicy evaluation
-- Complete hyperparameter tuning documentation
+- Complete hyperparameter tuning documentation for **4 team members** (40 total experiments)
 - Video demonstration of trained agent gameplay
+
+## Team Members
+
+- **Ivan Shema**
+- **Prince Rurangwa**
+- **Loic [Last Name]**
+- **Armand [Last Name]**
 
 ## Environment: Assault
 
@@ -25,15 +32,14 @@ This project implements a Deep Q-Network (DQN) agent to play the Atari Assault g
 - Python 3.8 or higher
 - pip package manager
 - At least 2GB free disk space
-- Can Ideally have GPU if you want faster training
 
 ### Installation Steps
 
 #### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/shemankubana/Deep-Q-Learning.git
-cd Deep-Q-Learning
+git clone https://github.com/nkubana0/Formative-3-Assignment-Deep-Q-Learning.git
+cd Formative-3-Assignment-Deep-Q-Learning
 ```
 
 #### 2. Create Virtual Environment
@@ -72,27 +78,6 @@ You should see:
 ✓ SETUP COMPLETE - Ready to train!
 ```
 
-## Project Structure
-
-```
-Deep-Q-Learning/
-├── train.py                 # Training script (Task 1)
-├── play.py                  # Evaluation script (Task 2)
-├── run_experiments.py       # Hyperparameter experiment runner
-├── check_setup.py          # Environment verification
-├── requirements.txt         # Python dependencies
-├── README.md               # This file
-├── dqn_model.zip           # Trained model (generated after training)
-├── models/                 # Saved models directory
-│   ├── best/               # Best performing models
-│   ├── checkpoints/        # Training checkpoints
-│   └── experiment_XX/      # Individual experiment models
-├── logs/                   # Training logs and TensorBoard data
-│   ├── dqn_atari/         # Default training logs
-│   └── experiment_XX/      # Individual experiment logs
-└── videos/                 # Recorded gameplay videos
-```
-
 ## Usage
 
 ### Task 1: Training the Agent
@@ -108,17 +93,17 @@ python train.py --timesteps 1000000
 
 Proceed to comparing CNNPolicy and MLPPolicy:
 
-**CNN Policy** (Recommended for Atari - extracts spatial features):
+**CNN Policy**:
 ```bash
 python train.py --policy CnnPolicy --timesteps 500000
 ```
 
-**MLP Policy** (For comparison - less effective for image input):
+**MLP Policy**:
 ```bash
 python train.py --policy MlpPolicy --timesteps 500000
 ```
 
-#### Custom Hyperparameters
+#### Custom Hyperparameters Example:
 
 ```bash
 python train.py \
@@ -130,18 +115,6 @@ python train.py \
   --eps-end 0.01 \
   --exp-fraction 0.1
 ```
-
-#### Running Numbered Experiments
-
-```bash
-# Experiment 1 (Baseline)
-python train.py --timesteps 500000 --experiment 1
-
-# Experiment 2 (High Learning Rate)
-python train.py --timesteps 500000 --lr 5e-4 --experiment 2
-```
-
-**Training Output**: The model will be saved as `dqn_model.zip` in the root directory and also in `models/experiment_XX/` for numbered experiments.
 
 **Key Training Logs**:
 - Episode rewards (reward trends)
@@ -178,89 +151,9 @@ python play.py --record --episodes 5 --video-folder ./videos
 
 Videos will be saved in the `videos/` directory.
 
-## Hyperparameter Experiments
-
-As required by the assignment, 10 different hyperparameter configurations were tested:
-
-### Running All Experiments
-
-```bash
-python run_experiments.py --timesteps 500000
-```
-
-### Running Specific Experiments
-
-```bash
-python run_experiments.py --experiments 1 2 3 --timesteps 500000
-```
-
-### Individual Experiment Commands
-
-```bash
-# Experiment 1: Baseline
-python train.py --timesteps 500000 --experiment 1
-
-# Experiment 2: High Learning Rate
-python train.py --timesteps 500000 --lr 5e-4 --experiment 2
-
-# Experiment 3: Low Learning Rate
-python train.py --timesteps 500000 --lr 5e-5 --experiment 3
-
-# Experiment 4: High Gamma
-python train.py --timesteps 500000 --gamma 0.995 --experiment 4
-
-# Experiment 5: Low Gamma
-python train.py --timesteps 500000 --gamma 0.95 --experiment 5
-
-# Experiment 6: Large Batch Size
-python train.py --timesteps 500000 --batch-size 64 --experiment 6
-
-# Experiment 7: Small Batch Size
-python train.py --timesteps 500000 --batch-size 16 --experiment 7
-
-# Experiment 8: Extended Exploration
-python train.py --timesteps 500000 --eps-end 0.05 --exp-fraction 0.2 --experiment 8
-
-# Experiment 9: Quick Exploitation
-python train.py --timesteps 500000 --exp-fraction 0.05 --experiment 9
-
-# Experiment 10: Aggressive Learning
-python train.py --timesteps 500000 --lr 1e-3 --batch-size 64 --eps-end 0.02 --exp-fraction 0.15 --experiment 10
-```
-
-## Hyperparameter Configurations
-
-| Exp | Name | Learning Rate | Gamma (γ) | Batch Size | ε Start | ε End | Exp Fraction | Expected Behavior |
-|-----|------|---------------|-----------|------------|---------|-------|--------------|-------------------|
-| 1 | Baseline | 1e-4 | 0.99 | 32 | 1.0 | 0.01 | 0.1 | Standard DQN configuration |
-| 2 | High LR | 5e-4 | 0.99 | 32 | 1.0 | 0.01 | 0.1 | Faster learning, potentially less stable |
-| 3 | Low LR | 5e-5 | 0.99 | 32 | 1.0 | 0.01 | 0.1 | Slower but more stable learning |
-| 4 | High Gamma | 1e-4 | 0.995 | 32 | 1.0 | 0.01 | 0.1 | Values long-term rewards more |
-| 5 | Low Gamma | 1e-4 | 0.95 | 32 | 1.0 | 0.01 | 0.1 | Focuses on immediate rewards |
-| 6 | Large Batch | 1e-4 | 0.99 | 64 | 1.0 | 0.01 | 0.1 | More stable gradient estimates |
-| 7 | Small Batch | 1e-4 | 0.99 | 16 | 1.0 | 0.01 | 0.1 | Noisier but more frequent updates |
-| 8 | Ext Explore | 1e-4 | 0.99 | 32 | 1.0 | 0.05 | 0.2 | More exploration time |
-| 9 | Quick Exploit | 1e-4 | 0.99 | 32 | 1.0 | 0.01 | 0.05 | Fast transition to exploitation |
-| 10 | Aggressive | 1e-3 | 0.99 | 64 | 1.0 | 0.02 | 0.15 | Very fast learning with stability |
-
-### Observed Results
-
-*(To be filled after running experiments)*
-
-| Exp | Avg Reward | Max Reward | Convergence Speed | Stability | Key Observations |
-|-----|------------|------------|-------------------|-----------|------------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
-| 6 | | | | | |
-| 7 | | | | | |
-| 8 | | | | | |
-| 9 | | | | | |
-| 10 | | | | | |
-
 ---
+
+# Team Member Experiments
 
 ## Prince Rurangwa's Experiments
 
@@ -324,6 +217,278 @@ Prince conducted 10 hyperparameter experiments across different Atari games to t
 - Game genre (action vs puzzle vs navigation) influences optimal settings
 - Testing across diverse environments reveals parameter robustness
 
+**To Run Prince's Experiments:**
+```bash
+python prince_experiment.py --timesteps 10000  # For testing
+python prince_experiment.py --timesteps 1000000  # For full training
+```
+
+---
+
+## Ivan Shema's Experiments
+
+### Experimental Design
+
+Ivan conducted 10 hyperparameter experiments on the Assault environment to systematically test the impact of different learning configurations on agent performance. The experiments follow a structured approach varying one or two parameters at a time to isolate their effects.
+
+| Exp | Name | Environment | Timesteps | LR | γ | Batch | ε Start | ε End | Exp Frac | Description |
+|-----|------|-------------|-----------|-----|------|-------|---------|---------|----------|-------------|
+| 1 | Baseline | Assault-v5 | 500,000 | 1e-4 | 0.99 | 32 | 1.0 | 0.01 | 0.1 | Standard DQN - baseline for comparison |
+| 2 | High Learning Rate | Assault-v5 | 500,000 | 5e-4 | 0.99 | 32 | 1.0 | 0.01 | 0.1 | Faster learning, may be less stable |
+| 3 | Low Learning Rate | Assault-v5 | 500,000 | 5e-5 | 0.99 | 32 | 1.0 | 0.01 | 0.1 | Slower but more stable learning |
+| 4 | High Gamma | Assault-v5 | 500,000 | 1e-4 | 0.995 | 32 | 1.0 | 0.01 | 0.1 | Values long-term rewards, better strategy |
+| 5 | Low Gamma | Assault-v5 | 500,000 | 1e-4 | 0.95 | 32 | 1.0 | 0.01 | 0.1 | Focuses on immediate rewards |
+| 6 | Large Batch | Assault-v5 | 500,000 | 1e-4 | 0.99 | 64 | 1.0 | 0.01 | 0.1 | More stable gradients |
+| 7 | Small Batch | Assault-v5 | 500,000 | 1e-4 | 0.99 | 16 | 1.0 | 0.01 | 0.1 | Noisier but more frequent updates |
+| 8 | Extended Exploration | Assault-v5 | 500,000 | 1e-4 | 0.99 | 32 | 1.0 | 0.05 | 0.2 | More exploration, may find better strategies |
+| 9 | Quick Exploitation | Assault-v5 | 500,000 | 1e-4 | 0.99 | 32 | 1.0 | 0.01 | 0.05 | Fast convergence, may miss optimal strategies |
+| 10 | Aggressive | Assault-v5 | 500,000 | 1e-3 | 0.99 | 64 | 1.0 | 0.02 | 0.15 | Very fast learning with larger batches |
+
+### Observed Results
+
+| Exp | Training Time | Avg Reward (Last 100) | Max Reward | Convergence Episode | Status | Key Findings |
+|-----|--------------|----------------------|------------|---------------------|--------|--------------|
+| 1 | [INSERT TIME] | [INSERT AVG] | [INSERT MAX] | [INSERT EPISODE] | [INSERT STATUS] | [INSERT YOUR OBSERVATIONS - e.g., "Stable baseline, good starting point"] |
+| 2 | [INSERT TIME] | [INSERT AVG] | [INSERT MAX] | [INSERT EPISODE] | [INSERT STATUS] | [INSERT YOUR OBSERVATIONS - e.g., "Converged faster but more volatile"] |
+| 3 | [INSERT TIME] | [INSERT AVG] | [INSERT MAX] | [INSERT EPISODE] | [INSERT STATUS] | [INSERT YOUR OBSERVATIONS - e.g., "Very stable but slow progress"] |
+| 4 | [INSERT TIME] | [INSERT AVG] | [INSERT MAX] | [INSERT EPISODE] | [INSERT STATUS] | [INSERT YOUR OBSERVATIONS - e.g., "Better long-term strategy"] |
+| 5 | [INSERT TIME] | [INSERT AVG] | [INSERT MAX] | [INSERT EPISODE] | [INSERT STATUS] | [INSERT YOUR OBSERVATIONS - e.g., "Focused on immediate kills"] |
+| 6 | [INSERT TIME] | [INSERT AVG] | [INSERT MAX] | [INSERT EPISODE] | [INSERT STATUS] | [INSERT YOUR OBSERVATIONS - e.g., "Smoother learning curve"] |
+| 7 | [INSERT TIME] | [INSERT AVG] | [INSERT MAX] | [INSERT EPISODE] | [INSERT STATUS] | [INSERT YOUR OBSERVATIONS - e.g., "High variance in rewards"] |
+| 8 | [INSERT TIME] | [INSERT AVG] | [INSERT MAX] | [INSERT EPISODE] | [INSERT STATUS] | [INSERT YOUR OBSERVATIONS - e.g., "Discovered better tactics late"] |
+| 9 | [INSERT TIME] | [INSERT AVG] | [INSERT MAX] | [INSERT EPISODE] | [INSERT STATUS] | [INSERT YOUR OBSERVATIONS - e.g., "Quick but suboptimal policy"] |
+| 10 | [INSERT TIME] | [INSERT AVG] | [INSERT MAX] | [INSERT EPISODE] | [INSERT STATUS] | [INSERT YOUR OBSERVATIONS - e.g., "Fast convergence, high variance"] |
+
+### Analysis Summary
+
+**Learning Rate Impact:**
+[INSERT YOUR ANALYSIS]
+- How did the high LR (5e-4) vs low LR (5e-5) vs baseline (1e-4) compare?
+- Which learning rate achieved the best final performance?
+- What were the trade-offs between convergence speed and stability?
+
+**Gamma Effects:**
+[INSERT YOUR ANALYSIS]
+- How did high gamma (0.995) vs low gamma (0.95) affect playing strategy?
+- Did the agent with high gamma survive longer or score more points?
+- How did the discount factor impact decision-making in Assault?
+
+**Batch Size Trade-offs:**
+[INSERT YOUR ANALYSIS]
+- Compare small batch (16) vs baseline (32) vs large batch (64)
+- How did batch size affect training stability and computational time?
+- What is your recommended batch size for Assault?
+
+**Exploration Strategy:**
+[INSERT YOUR ANALYSIS]
+- How did extended exploration (0.2 fraction) vs quick exploitation (0.05) perform?
+- Did longer exploration help discover better strategies?
+- What exploration schedule works best for Assault?
+
+**Overall Best Configuration:**
+[INSERT YOUR ANALYSIS]
+- Which experiment achieved the highest average reward?
+- What combination of hyperparameters would you recommend?
+- Are there any surprising findings or unexpected results?
+
+**Key Insights for Assault:**
+1. [INSERT KEY INSIGHT 1 - e.g., "Assault requires quick reactions, favoring faster learning rates"]
+2. [INSERT KEY INSIGHT 2 - e.g., "Moderate exploration (0.1-0.15) is sufficient for this environment"]
+3. [INSERT KEY INSIGHT 3 - e.g., "Batch size 32-64 offers best stability/speed trade-off"]
+
+**To Run Ivan's Experiments:**
+```bash
+# Run all experiments
+python ivan_experiment.py --timesteps 500000
+
+# Run specific experiments (e.g., 1, 2, 3)
+python ivan_experiment.py --experiments 1 2 3 --timesteps 500000
+
+# Quick test mode
+python ivan_experiment.py --timesteps 10000
+```
+
+---
+
+## Loic's Experiments
+
+### Experimental Design
+
+Loic conducted 10 hyperparameter experiments focusing on [INSERT YOUR EXPERIMENTAL FOCUS - e.g., "extreme parameter ranges to test DQN robustness" or "comparing different Atari games" or "stability vs performance trade-offs"].
+
+**Experimental Approach:** [INSERT YOUR METHODOLOGY - e.g., "I tested extreme hyperparameter values to identify breaking points and optimal ranges for DQN training"]
+
+| Exp | Name | Environment | Timesteps | LR | γ | Batch | ε Start | ε End | Exp Frac | Description |
+|-----|------|-------------|-----------|-----|------|-------|---------|---------|----------|-------------|
+| 1 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
+| 2 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
+| 3 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
+| 4 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
+| 5 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
+| 6 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
+| 7 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
+| 8 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
+| 9 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
+| 10 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
+
+### Observed Results
+
+| Exp | Training Time | Avg Reward (Last 100) | Max Reward | Convergence Episode | Status | Key Findings |
+|-----|--------------|----------------------|------------|---------------------|--------|--------------|
+| 1 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
+| 2 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
+| 3 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
+| 4 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
+| 5 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
+| 6 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
+| 7 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
+| 8 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
+| 9 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
+| 10 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
+
+### Analysis Summary
+
+**[INSERT YOUR MAIN ANALYSIS CATEGORY 1]:**
+[INSERT YOUR DETAILED ANALYSIS]
+
+**[INSERT YOUR MAIN ANALYSIS CATEGORY 2]:**
+[INSERT YOUR DETAILED ANALYSIS]
+
+**[INSERT YOUR MAIN ANALYSIS CATEGORY 3]:**
+[INSERT YOUR DETAILED ANALYSIS]
+
+**[INSERT YOUR MAIN ANALYSIS CATEGORY 4]:**
+[INSERT YOUR DETAILED ANALYSIS]
+
+**Overall Findings:**
+[INSERT YOUR OVERALL FINDINGS - What are the most important takeaways from your experiments?]
+
+**Key Insights:**
+1. [INSERT KEY INSIGHT 1]
+2. [INSERT KEY INSIGHT 2]
+3. [INSERT KEY INSIGHT 3]
+
+**To Run Loic's Experiments:**
+```bash
+python loic_experiment.py --timesteps 500000
+```
+
+**Note:** You need to create `loic_experiment.py` following the same pattern as `ivan_experiment.py` or `armand_experiment.py`
+
+---
+
+## Armand's Experiments
+
+### Experimental Design
+
+Armand conducted 10 hyperparameter experiments focusing on extreme parameter configurations and boundary testing. The experiments explore very low learning rates, massive batch sizes, and aggressive exploration strategies to understand DQN's operational limits.
+
+**Experimental Approach:** Testing extreme hyperparameter values to identify breaking points and optimal ranges, with focus on stability-performance trade-offs.
+
+| Exp | Name | Environment | Timesteps | LR | γ | Batch | ε Start | ε End | Exp Frac | Description |
+|-----|------|-------------|-----------|-----|------|-------|---------|---------|----------|-------------|
+| 1 | Armand Baseline | Assault-v5 | 500,000 | 2e-4 | 0.98 | 32 | 1.0 | 0.02 | 0.12 | Balanced starting point for comparison |
+| 2 | Very Low LR | Assault-v5 | 500,000 | 1e-5 | 0.99 | 32 | 1.0 | 0.01 | 0.15 | Extremely slow learning but very stable Q-updates |
+| 3 | Medium LR Boost | Assault-v5 | 500,000 | 3e-4 | 0.97 | 32 | 1.0 | 0.03 | 0.10 | Faster convergence but sensitive to noise |
+| 4 | High-Gamma Stability | Assault-v5 | 500,000 | 1e-4 | 0.997 | 64 | 1.0 | 0.015 | 0.12 | Strong long-term reward focus and stable value estimates |
+| 5 | Low-Gamma Reaction | Assault-v5 | 500,000 | 3e-5 | 0.90 | 32 | 1.0 | 0.05 | 0.20 | Prioritizes short-term actions; more reactive agent |
+| 6 | Giant Batch | Assault-v5 | 500,000 | 1e-4 | 0.99 | 128 | 1.0 | 0.01 | 0.10 | Very stable gradients but slower parameter updates |
+| 7 | Tiny Batch | Assault-v5 | 500,000 | 1e-4 | 0.92 | 8 | 1.0 | 0.02 | 0.25 | Highly noisy updates - faster exploration but unstable Q-values |
+| 8 | Extended Exploration | Assault-v5 | 500,000 | 2e-4 | 0.99 | 32 | 1.0 | 0.10 | 0.40 | Extremely high exploration, useful for discovering new strategies |
+| 9 | Rapid Exploitation | Assault-v5 | 500,000 | 5e-4 | 0.95 | 16 | 1.0 | 0.01 | 0.03 | Agent exploits early; unstable but fast convergence |
+| 10 | Aggressive High-LR | Assault-v5 | 500,000 | 1e-3 | 0.96 | 64 | 1.0 | 0.03 | 0.07 | Very aggressive updates; may learn fast or collapse |
+
+### Observed Results
+
+| Exp | Training Time | Avg Reward (Last 100) | Max Reward | Convergence Episode | Status | Key Findings |
+|-----|--------------|----------------------|------------|---------------------|--------|--------------|
+| 1 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Stable baseline performance"] |
+| 2 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Very slow but ultra-stable"] |
+| 3 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Good balance, some instability"] |
+| 4 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Excellent long-term planning"] |
+| 5 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Reactive play style, immediate rewards"] |
+| 6 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Very stable but slow training"] |
+| 7 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Highly unstable, poor convergence"] |
+| 8 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Found unique strategies late"] |
+| 9 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Fast but suboptimal policy"] |
+| 10 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Diverged/very unstable OR surprisingly good"] |
+
+### Analysis Summary
+
+**Learning Rate Extremes:**
+[INSERT YOUR ANALYSIS]
+- Compare very low (1e-5) vs very high (1e-3) learning rates
+- At what point does learning rate cause instability?
+- What is the optimal learning rate range for Assault?
+
+**Gamma Effects:**
+[INSERT YOUR ANALYSIS]
+- Compare high-gamma (0.997) vs low-gamma (0.90) strategies
+- How does gamma affect survival time vs kill rate?
+- Does Assault benefit more from long-term or short-term planning?
+
+**Batch Size Extremes:**
+[INSERT YOUR ANALYSIS]
+- How did tiny batch (8) vs giant batch (128) affect training?
+- What are the computational vs performance trade-offs?
+- Is there a "sweet spot" for batch size?
+
+**Exploration Strategies:**
+[INSERT YOUR ANALYSIS]
+- Compare extended exploration (0.40 fraction) vs rapid exploitation (0.03)
+- Did extreme exploration discover significantly better strategies?
+- What is the minimum exploration needed for Assault?
+
+**Stability vs Performance:**
+[INSERT YOUR ANALYSIS]
+- Which configurations were most stable?
+- Which achieved highest performance despite instability?
+- Can we predict when aggressive parameters will succeed or fail?
+
+**Boundary Testing Insights:**
+[INSERT YOUR ANALYSIS]
+- Which parameter ranges caused training failure?
+- What are the safe operational bounds for each hyperparameter?
+- Any surprising results that defied expectations?
+
+**Overall Findings:**
+[INSERT YOUR OVERALL CONCLUSIONS - What did testing extreme values teach you about DQN?]
+
+**Key Insights:**
+1. [INSERT KEY INSIGHT 1 - e.g., "Learning rates above 5e-4 cause significant instability"]
+2. [INSERT KEY INSIGHT 2 - e.g., "Batch sizes below 16 are too noisy for stable learning"]
+3. [INSERT KEY INSIGHT 3 - e.g., "Extended exploration (>0.3) yields diminishing returns"]
+
+**To Run Armand's Experiments:**
+```bash
+# Run all experiments
+python armand_experiment.py --timesteps 500000
+
+# Run specific experiments
+python armand_experiment.py --experiments 1 2 7 --timesteps 500000
+
+# Quick test mode
+python armand_experiment.py --timesteps 10000
+```
+
+---
+
+## Team Collaboration Notes
+
+### Division of Work
+
+- **Prince**: Multi-game experiments (different Atari environments) ✅
+- **Ivan**: Single-game systematic study (Assault with varied hyperparameters)
+- **Loic**: [TO BE DEFINED - e.g., "Policy comparison" or "Different reward structures"]
+- **Armand**: Extreme parameter testing and boundary analysis
+
+### Shared Insights
+
+[AFTER ALL EXPERIMENTS ARE COMPLETE, INSERT TEAM-LEVEL INSIGHTS HERE]
+- What patterns emerged across all 40 experiments?
+- Which hyperparameters matter most for Atari games?
+- How do different team members' findings complement each other?
+
 ---
 
 ## Monitoring Training
@@ -363,12 +528,14 @@ A video demonstration of the trained agent is included showing:
 - The agent using GreedyQPolicy for optimal performance
 - Real-time interaction with the Assault environment
 
-**To generate your own video**:
+**To generate video**:
 ```bash
 python play.py --record --episodes 5
 ```
 
 Videos are saved in the `videos/` directory.
+
+---
 
 ## DQN Architecture
 
@@ -393,6 +560,8 @@ Videos are saved in the `videos/` directory.
 - **Epsilon-Greedy Exploration**: Decays from 1.0 to 0.01
 - **Reward Clipping**: Not applied (preserves score information)
 
+---
+
 ## References
 
 - [Playing Atari with Deep Reinforcement Learning (Mnih et al., 2013)](https://arxiv.org/abs/1312.5602)
@@ -400,3 +569,5 @@ Videos are saved in the `videos/` directory.
 - [Stable Baselines3 Documentation](https://stable-baselines3.readthedocs.io/)
 - [Gymnasium Atari Environments](https://ale.farama.org/environments/)
 - [Assault Environment Documentation](https://ale.farama.org/environments/assault/)
+
+---
