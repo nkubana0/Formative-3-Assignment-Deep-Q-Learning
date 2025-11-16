@@ -1,0 +1,152 @@
+[
+  {
+    "experiment": "prince_exp_1_seaquest_baseline",
+    "env": "ALE/Seaquest-v5",
+    "status": "completed",
+    "timesteps": 10000,
+    "duration_seconds": 83.62159013748169,
+    "duration_minutes": "1.4",
+    "hyperparameters": {
+      "learning_rate": 0.0001,
+      "gamma": 0.99,
+      "batch_size": 32,
+      "exploration_fraction": 0.1
+    },
+    "description": "Baseline with standard hyperparameters"
+  },
+  {
+    "experiment": "prince_exp_2_asterix_high_lr",
+    "env": "ALE/Asterix-v5",
+    "status": "completed",
+    "timesteps": 10000,
+    "duration_seconds": 66.00458216667175,
+    "duration_minutes": "1.1",
+    "hyperparameters": {
+      "learning_rate": 0.0005,
+      "gamma": 0.99,
+      "batch_size": 32,
+      "exploration_fraction": 0.1
+    },
+    "description": "High learning rate test"
+  },
+  {
+    "experiment": "prince_exp_3_boxing_low_gamma",
+    "env": "ALE/Boxing-v5",
+    "status": "completed",
+    "timesteps": 10000,
+    "duration_seconds": 84.3318338394165,
+    "duration_minutes": "1.4",
+    "hyperparameters": {
+      "learning_rate": 0.0001,
+      "gamma": 0.95,
+      "batch_size": 32,
+      "exploration_fraction": 0.1
+    },
+    "description": "Low gamma for short-term rewards"
+  },
+  {
+    "experiment": "prince_exp_4_krull_large_batch",
+    "env": "ALE/Krull-v5",
+    "status": "completed",
+    "timesteps": 10000,
+    "duration_seconds": 94.20637440681458,
+    "duration_minutes": "1.6",
+    "hyperparameters": {
+      "learning_rate": 0.0001,
+      "gamma": 0.99,
+      "batch_size": 128,
+      "exploration_fraction": 0.1
+    },
+    "description": "Large batch size for stability"
+  },
+  {
+    "experiment": "prince_exp_5_riverraid_extended_exploration",
+    "env": "ALE/Riverraid-v5",
+    "status": "completed",
+    "timesteps": 10000,
+    "duration_seconds": 81.41760087013245,
+    "duration_minutes": "1.4",
+    "hyperparameters": {
+      "learning_rate": 0.0001,
+      "gamma": 0.99,
+      "batch_size": 32,
+      "exploration_fraction": 0.3
+    },
+    "description": "Extended exploration phase"
+  },
+  {
+    "experiment": "prince_exp_6_qbert_high_gamma",
+    "env": "ALE/Qbert-v5",
+    "status": "completed",
+    "timesteps": 10000,
+    "duration_seconds": 80.03736591339111,
+    "duration_minutes": "1.3",
+    "hyperparameters": {
+      "learning_rate": 0.0001,
+      "gamma": 0.995,
+      "batch_size": 32,
+      "exploration_fraction": 0.1
+    },
+    "description": "High gamma for long-term planning"
+  },
+  {
+    "experiment": "prince_exp_7_mspacman_combined",
+    "env": "ALE/MsPacman-v5",
+    "status": "completed",
+    "timesteps": 10000,
+    "duration_seconds": 76.82788968086243,
+    "duration_minutes": "1.3",
+    "hyperparameters": {
+      "learning_rate": 0.0003,
+      "gamma": 0.98,
+      "batch_size": 64,
+      "exploration_fraction": 0.2
+    },
+    "description": "Balanced hyperparameters"
+  },
+  {
+    "experiment": "prince_exp_8_zaxxon_very_large_batch",
+    "env": "ALE/Zaxxon-v5",
+    "status": "completed",
+    "timesteps": 10000,
+    "duration_seconds": 116.87037086486816,
+    "duration_minutes": "1.9",
+    "hyperparameters": {
+      "learning_rate": 0.0001,
+      "gamma": 0.99,
+      "batch_size": 256,
+      "exploration_fraction": 0.1
+    },
+    "description": "Very large batch size"
+  },
+  {
+    "experiment": "prince_exp_9_battlezone_slow_exploration",
+    "env": "ALE/BattleZone-v5",
+    "status": "completed",
+    "timesteps": 10000,
+    "duration_seconds": 77.1920256614685,
+    "duration_minutes": "1.3",
+    "hyperparameters": {
+      "learning_rate": 0.0001,
+      "gamma": 0.99,
+      "batch_size": 32,
+      "exploration_fraction": 0.5
+    },
+    "description": "Very slow exploration decay"
+  },
+  {
+    "experiment": "prince_exp_10_frostbite_aggressive",
+    "env": "ALE/Frostbite-v5",
+    "status": "completed",
+    "timesteps": 10000,
+    "duration_seconds": 98.72129964828491,
+    "duration_minutes": "1.6",
+    "hyperparameters": {
+      "learning_rate": 0.0005,
+      "gamma": 0.98,
+      "batch_size": 128,
+      "exploration_fraction": 0.15
+    },
+    "description": "Aggressive hyperparameters"
+  }
+]
