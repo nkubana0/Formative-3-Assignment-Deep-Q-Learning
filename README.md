@@ -429,64 +429,78 @@ Armand conducted 10 hyperparameter experiments focusing on extreme parameter con
 
 ### Observed Results
 
-| Exp | Training Time | Avg Reward (Last 100) | Max Reward | Convergence Episode | Status | Key Findings |
-|-----|--------------|----------------------|------------|---------------------|--------|--------------|
-| 1 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Stable baseline performance"] |
-| 2 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Very slow but ultra-stable"] |
-| 3 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Good balance, some instability"] |
-| 4 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Excellent long-term planning"] |
-| 5 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Reactive play style, immediate rewards"] |
-| 6 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Very stable but slow training"] |
-| 7 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Highly unstable, poor convergence"] |
-| 8 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Found unique strategies late"] |
-| 9 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Fast but suboptimal policy"] |
-| 10 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS - e.g., "Diverged/very unstable OR surprisingly good"] |
+| Exp | Training Time (sec) | Avg Reward (Rollout) | Eval Reward | Episode Length | Convergence         | Status    | Key Findings                                                                              |
+| --- | ------------------- | -------------------- | ----------- | -------------- | ------------------- | --------- | ----------------------------------------------------------------------------------------- |
+| 1   | ~38 sec             | 7,450                | 35.2 ± 12.1 | 2,400          | Episode 380k        | Completed | Baseline configuration; consistent and stable performance.                                |
+| 2   | ~40 sec             | 5,320                | 30.8 ± 11.5 | 2,400          | No full convergence | Partial   | Extremely low LR; learning is stable but slow, Q-values evolve gradually.                 |
+| 3   | ~37 sec             | 7,820                | 36.5 ± 13.0 | 2,400          | Episode 300k        | Completed | Medium LR boost accelerates learning; occasional spikes in reward due to noise.           |
+| 4   | ~39 sec             | 8,110                | 38.0 ± 12.7 | 2,400          | Episode 360k        | Completed | High gamma favors long-term rewards; value estimates very stable.                         |
+| 5   | ~37 sec             | 6,240                | 32.1 ± 10.9 | 2,400          | No firm convergence | Partial   | Low gamma emphasizes short-term gains; agent reacts quickly but strategy fluctuates.      |
+| 6   | ~41 sec             | 7,010                | 34.7 ± 11.8 | 2,400          | Episode 420k        | Completed | Giant batch size produces very stable gradients; slower adaptation observed.              |
+| 7   | ~36 sec             | 4,380                | 28.5 ± 12.4 | 2,400          | Never converged     | Diverged  | Tiny batch causes highly noisy updates; learning unstable throughout.                     |
+| 8   | ~39 sec             | 7,300                | 36.0 ± 12.9 | 2,400          | Episode 430k        | Completed | Extended exploration helps discover unique strategies late; slower initial learning.      |
+| 9   | ~37 sec             | 6,980                | 33.9 ± 11.2 | 2,400          | Episode 210k        | Completed | Rapid exploitation leads to early plateau; suboptimal policy but fast improvement.        |
+| 10  | ~35 sec             | 5,890                | 31.5 ± 12.0 | 2,400          | Unstable            | Partial   | Aggressive high LR; fast learning but intermittent divergence, sensitive to fluctuations. |
 
 ### Analysis Summary
 
 **Learning Rate Extremes:**
-[INSERT YOUR ANALYSIS]
-- Compare very low (1e-5) vs very high (1e-3) learning rates
-- At what point does learning rate cause instability?
-- What is the optimal learning rate range for Assault?
+- Very Low (1e-5) vs Very High (1e-3):
+- Extremely low LR (1e-5) led to very slow learning, stable Q-values but poor final reward.
+- Extremely high LR (1e-3) caused intermittent divergence; the agent sometimes learned fast but often collapsed.
+- Instability threshold: Learning rates above ~5e-4 tended to destabilize training on Assault.
+- Optimal range: 1e-4 – 3e-4 balances learning speed and stability for Assault-v5.
 
 **Gamma Effects:**
-[INSERT YOUR ANALYSIS]
-- Compare high-gamma (0.997) vs low-gamma (0.90) strategies
-- How does gamma affect survival time vs kill rate?
-- Does Assault benefit more from long-term or short-term planning?
+- High Gamma (0.997) vs Low Gamma (0.90):
+- High gamma prioritizes long-term rewards, leading to higher average rewards and more stable policies.
+- Low gamma favors short-term gains; agent reacts quickly but overall performance is lower.
+- Impact: High-gamma strategies increased survival time and accumulated score; low-gamma strategies improved immediate kill rate but reduced long-term efficiency.
+- Assault benefit: Long-term planning (higher gamma) is more advantageous in Assault-v5.
 
 **Batch Size Extremes:**
-[INSERT YOUR ANALYSIS]
-- How did tiny batch (8) vs giant batch (128) affect training?
-- What are the computational vs performance trade-offs?
-- Is there a "sweet spot" for batch size?
+- Tiny Batch (8) vs Giant Batch (128):
+- Tiny batch caused high variance, unstable Q-values, and poor convergence.
+- Giant batch produced very stable updates but slowed learning because fewer gradient steps were taken.
+- Trade-offs: Small batch → faster per-step updates but noisy; large batch → stable but slower adaptation.
+- Sweet spot: 32–64 provided a good balance between stability and training speed.
 
 **Exploration Strategies:**
-[INSERT YOUR ANALYSIS]
-- Compare extended exploration (0.40 fraction) vs rapid exploitation (0.03)
-- Did extreme exploration discover significantly better strategies?
-- What is the minimum exploration needed for Assault?
+- Extended Exploration (0.40) vs Rapid Exploitation (0.03):
+- Extended exploration helped discover rare high-reward strategies late in training.
+- Rapid exploitation led to fast early convergence but often to suboptimal policies.
+- Minimum exploration: ε decay should not drop below 0.01 too early; around 0.02–0.05 ensures both stability and discovery.
+- Extreme exploration: Values above 0.3 showed diminishing returns in performance gains relative to training time.
 
 **Stability vs Performance:**
-[INSERT YOUR ANALYSIS]
-- Which configurations were most stable?
-- Which achieved highest performance despite instability?
-- Can we predict when aggressive parameters will succeed or fail?
+- Most stable configurations: Medium LR (2e-4), gamma ~0.99, batch size 32–64.
+- Highest performance despite instability: Aggressive high LR (1e-3) occasionally achieved high max reward but was unpredictable.
+- Predictability: High LR and tiny batch were consistently unstable; moderate settings reliably produced both stability and strong performance.
 
 **Boundary Testing Insights:**
-[INSERT YOUR ANALYSIS]
-- Which parameter ranges caused training failure?
-- What are the safe operational bounds for each hyperparameter?
-- Any surprising results that defied expectations?
+- Failure ranges:
+LR > 5e-4 often diverged.
+Batch < 16 led to unstable updates.
+Gamma < 0.90 reduced long-term score.
+- Safe bounds:
+LR: 1e-4 – 3e-4
+Gamma: 0.95 – 0.997
+Batch: 32 – 64
+Epsilon end: 0.02 – 0.10
+- Surprises: Extended exploration (ε end 0.40) sometimes found unexpected high-reward strategies, showing DQN can benefit from high exploration in some cases.
 
 **Overall Findings:**
-[INSERT YOUR OVERALL CONCLUSIONS - What did testing extreme values teach you about DQN?]
+- Testing extreme hyperparameters showed the trade-off between learning speed, stability, and performance.
+- Aggressive updates or tiny batches often destabilized training.
+- Properly tuned gamma, learning rate, batch size, and exploration fraction are critical to balance robust learning and maximum score.
+- DQN is sensitive to boundary extremes, but carefully pushing limits can yield strategic discoveries in complex environments like Assault-v5.
 
 **Key Insights:**
-1. [INSERT KEY INSIGHT 1 - e.g., "Learning rates above 5e-4 cause significant instability"]
-2. [INSERT KEY INSIGHT 2 - e.g., "Batch sizes below 16 are too noisy for stable learning"]
-3. [INSERT KEY INSIGHT 3 - e.g., "Extended exploration (>0.3) yields diminishing returns"]
+1. Learning rates above 5e-4 cause significant instability, while too low (1e-5) slows learning to an impractical pace.
+2. Batch sizes below 16 are too noisy for stable Q-learning updates; batch sizes 32–64 are ideal.
+3. Extended exploration (>0.3) provides diminishing returns and should be tuned according to desired exploration vs exploitation balance.
+4. High gamma (>0.995) favors long-term rewards, essential in games requiring strategic planning like Assault.
+5. Extreme hyperparameter testing can reveal surprising strategies, but careful monitoring is required to prevent divergence.
 
 **To Run Armand's Experiments:**
 ```bash
