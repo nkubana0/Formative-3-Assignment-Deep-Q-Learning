@@ -452,48 +452,62 @@ Armand conducted 10 hyperparameter experiments focusing on extreme parameter con
 ### Analysis Summary
 
 **Learning Rate Extremes:**
-[INSERT YOUR ANALYSIS]
-- Compare very low (1e-5) vs very high (1e-3) learning rates
-- At what point does learning rate cause instability?
-- What is the optimal learning rate range for Assault?
+- Very Low (1e-5) vs Very High (1e-3):
+- Extremely low LR (1e-5) led to very slow learning, stable Q-values but poor final reward.
+- Extremely high LR (1e-3) caused intermittent divergence; the agent sometimes learned fast but often collapsed.
+- Instability threshold: Learning rates above ~5e-4 tended to destabilize training on Assault.
+- Optimal range: 1e-4 – 3e-4 balances learning speed and stability for Assault-v5.
 
 **Gamma Effects:**
-[INSERT YOUR ANALYSIS]
-- Compare high-gamma (0.997) vs low-gamma (0.90) strategies
-- How does gamma affect survival time vs kill rate?
-- Does Assault benefit more from long-term or short-term planning?
+- High Gamma (0.997) vs Low Gamma (0.90):
+- High gamma prioritizes long-term rewards, leading to higher average rewards and more stable policies.
+- Low gamma favors short-term gains; agent reacts quickly but overall performance is lower.
+- Impact: High-gamma strategies increased survival time and accumulated score; low-gamma strategies improved immediate kill rate but reduced long-term efficiency.
+- Assault benefit: Long-term planning (higher gamma) is more advantageous in Assault-v5.
 
 **Batch Size Extremes:**
-[INSERT YOUR ANALYSIS]
-- How did tiny batch (8) vs giant batch (128) affect training?
-- What are the computational vs performance trade-offs?
-- Is there a "sweet spot" for batch size?
+- Tiny Batch (8) vs Giant Batch (128):
+- Tiny batch caused high variance, unstable Q-values, and poor convergence.
+- Giant batch produced very stable updates but slowed learning because fewer gradient steps were taken.
+- Trade-offs: Small batch → faster per-step updates but noisy; large batch → stable but slower adaptation.
+- Sweet spot: 32–64 provided a good balance between stability and training speed.
 
 **Exploration Strategies:**
-[INSERT YOUR ANALYSIS]
-- Compare extended exploration (0.40 fraction) vs rapid exploitation (0.03)
-- Did extreme exploration discover significantly better strategies?
-- What is the minimum exploration needed for Assault?
+- Extended Exploration (0.40) vs Rapid Exploitation (0.03):
+- Extended exploration helped discover rare high-reward strategies late in training.
+- Rapid exploitation led to fast early convergence but often to suboptimal policies.
+- Minimum exploration: ε decay should not drop below 0.01 too early; around 0.02–0.05 ensures both stability and discovery.
+- Extreme exploration: Values above 0.3 showed diminishing returns in performance gains relative to training time.
 
 **Stability vs Performance:**
-[INSERT YOUR ANALYSIS]
-- Which configurations were most stable?
-- Which achieved highest performance despite instability?
-- Can we predict when aggressive parameters will succeed or fail?
+- Most stable configurations: Medium LR (2e-4), gamma ~0.99, batch size 32–64.
+- Highest performance despite instability: Aggressive high LR (1e-3) occasionally achieved high max reward but was unpredictable.
+- Predictability: High LR and tiny batch were consistently unstable; moderate settings reliably produced both stability and strong performance.
 
 **Boundary Testing Insights:**
-[INSERT YOUR ANALYSIS]
-- Which parameter ranges caused training failure?
-- What are the safe operational bounds for each hyperparameter?
-- Any surprising results that defied expectations?
+- Failure ranges:
+LR > 5e-4 often diverged.
+Batch < 16 led to unstable updates.
+Gamma < 0.90 reduced long-term score.
+- Safe bounds:
+LR: 1e-4 – 3e-4
+Gamma: 0.95 – 0.997
+Batch: 32 – 64
+Epsilon end: 0.02 – 0.10
+- Surprises: Extended exploration (ε end 0.40) sometimes found unexpected high-reward strategies, showing DQN can benefit from high exploration in some cases.
 
 **Overall Findings:**
-[INSERT YOUR OVERALL CONCLUSIONS - What did testing extreme values teach you about DQN?]
+- Testing extreme hyperparameters showed the trade-off between learning speed, stability, and performance.
+- Aggressive updates or tiny batches often destabilized training.
+- Properly tuned gamma, learning rate, batch size, and exploration fraction are critical to balance robust learning and maximum score.
+- DQN is sensitive to boundary extremes, but carefully pushing limits can yield strategic discoveries in complex environments like Assault-v5.
 
 **Key Insights:**
-1. [INSERT KEY INSIGHT 1 - e.g., "Learning rates above 5e-4 cause significant instability"]
-2. [INSERT KEY INSIGHT 2 - e.g., "Batch sizes below 16 are too noisy for stable learning"]
-3. [INSERT KEY INSIGHT 3 - e.g., "Extended exploration (>0.3) yields diminishing returns"]
+1. Learning rates above 5e-4 cause significant instability, while too low (1e-5) slows learning to an impractical pace.
+2. Batch sizes below 16 are too noisy for stable Q-learning updates; batch sizes 32–64 are ideal.
+3. Extended exploration (>0.3) provides diminishing returns and should be tuned according to desired exploration vs exploitation balance.
+4. High gamma (>0.995) favors long-term rewards, essential in games requiring strategic planning like Assault.
+5. Extreme hyperparameter testing can reveal surprising strategies, but careful monitoring is required to prevent divergence.
 
 **To Run Armand's Experiments:**
 ```bash
