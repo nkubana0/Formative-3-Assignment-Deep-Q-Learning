@@ -54,10 +54,6 @@ ARMAND_EXPERIMENTS = [
      "description": "Very aggressive updates; may learn fast or collapse."}
 ]
 
-# ---------------------------------------------------------------------------
-# Run a Single Experiment
-# ---------------------------------------------------------------------------
-
 def run_experiment(exp, env='AssaultNoFrameskip-v4', timesteps=500_000):
     print("\n" + "#"*80)
     print(f"Experiment {exp['id']}: {exp['name']}")
@@ -89,10 +85,6 @@ def run_experiment(exp, env='AssaultNoFrameskip-v4', timesteps=500_000):
         print(f"✘ Experiment {exp['id']} failed: {e}\n")
         return False
 
-# ---------------------------------------------------------------------------
-# Generate Markdown Table
-# ---------------------------------------------------------------------------
-
 def generate_markdown_table():
     header = "## Armand DQN Hyperparameter Experiments\n\n"
     header += "| ID | Name | lr | gamma | Batch | eps_start | eps_end | exp_fraction | Description |\n"
@@ -105,10 +97,6 @@ def generate_markdown_table():
 
     return header + rows
 
-# ---------------------------------------------------------------------------
-# Main Execution
-# ---------------------------------------------------------------------------
-
 if __name__ == "__main__":
     import argparse
 
@@ -119,11 +107,9 @@ if __name__ == "__main__":
     parser.add_argument('--table', action='store_true', help='Generate markdown table and exit')
     args = parser.parse_args()
 
-    # Save configs
     with open('armand_experiment_configs.json', 'w') as f:
         json.dump(ARMAND_EXPERIMENTS, f, indent=2)
 
-    # Generate table if requested
     if args.table:
         table_md = generate_markdown_table()
         with open('armand_experiment_table.md', 'w') as f:
@@ -131,7 +117,6 @@ if __name__ == "__main__":
         print("✔ Markdown table saved to armand_experiment_table.md")
         exit()
 
-    # Filter experiments
     if args.experiments:
         selected = [exp for exp in ARMAND_EXPERIMENTS if exp['id'] in args.experiments]
     else:
@@ -148,7 +133,6 @@ if __name__ == "__main__":
             "timestamp": datetime.now().isoformat()
         }
 
-    # Save results
     with open('armand_experiment_results.json', 'w') as f:
         json.dump(results, f, indent=2)
 
