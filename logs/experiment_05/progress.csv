@@ -1,0 +1,5 @@
+time/total_timesteps,rollout/exploration_rate,time/time_elapsed,rollout/ep_rew_mean,rollout/ep_len_mean,time/fps,time/episodes,eval/mean_reward,eval/mean_ep_length
+14396,0.01,10,257.4782608695652,2316.217391304348,1430,100,,
+29692,0.01,20,263.375,2403.2916666666665,1448,200,,
+40000,0.01,,,,,,33.6,2098.2
+43960,0.01,34,258.90410958904107,2396.27397260274,1284,300,,
