@@ -151,7 +151,6 @@ python play.py --record --episodes 5 --video-folder ./videos
 
 Videos will be saved in the `videos/` directory.
 
----
 
 # Team Member Experiments
 
@@ -222,8 +221,6 @@ Prince conducted 10 hyperparameter experiments across different Atari games to t
 python prince_experiment.py --timesteps 10000  # For testing
 python prince_experiment.py --timesteps 1000000  # For full training
 ```
-
----
 
 ## Ivan Shema's Experiments
 
@@ -344,8 +341,6 @@ python ivan_experiment.py --experiments 1 2 3 --timesteps 500000
 python ivan_experiment.py --timesteps 10000
 ```
 
----
-
 ## Loic's Experiments
 
 ### Experimental Design
@@ -410,8 +405,6 @@ python loic_experiment.py --timesteps 500000
 ```
 
 **Note:** You need to create `loic_experiment.py` following the same pattern as `ivan_experiment.py` or `armand_experiment.py`
-
----
 
 ## Armand's Experiments
 
@@ -507,8 +500,6 @@ python armand_experiment.py --experiments 1 2 7 --timesteps 500000
 python armand_experiment.py --timesteps 10000
 ```
 
----
-
 ## Team Collaboration Notes
 
 ### Division of Work
@@ -525,7 +516,6 @@ python armand_experiment.py --timesteps 10000
 - Which hyperparameters matter most for Atari games?
 - How do different team members' findings complement each other?
 
----
 
 ## Monitoring Training
 
@@ -554,7 +544,6 @@ CSV logs are saved in `logs/dqn_atari/progress.csv` with columns:
 - `time/total_timesteps` - Total training steps
 - `rollout/exploration_rate` - Current epsilon value
 
----
 
 ## Video Demonstration
 
@@ -571,7 +560,6 @@ python play.py --record --episodes 5
 
 Videos are saved in the `videos/` directory.
 
----
 
 ## DQN Architecture
 
@@ -596,8 +584,6 @@ Videos are saved in the `videos/` directory.
 - **Epsilon-Greedy Exploration**: Decays from 1.0 to 0.01
 - **Reward Clipping**: Not applied (preserves score information)
 
----
-
 ## References
 
 - [Playing Atari with Deep Reinforcement Learning (Mnih et al., 2013)](https://arxiv.org/abs/1312.5602)
@@ -605,5 +591,3 @@ Videos are saved in the `videos/` directory.
 - [Stable Baselines3 Documentation](https://stable-baselines3.readthedocs.io/)
 - [Gymnasium Atari Environments](https://ale.farama.org/environments/)
 - [Assault Environment Documentation](https://ale.farama.org/environments/assault/)
-
----
