@@ -537,6 +537,13 @@ Videos are saved in the `videos/` directory.
 - **Epsilon-Greedy Exploration**: Decays from 1.0 to 0.01
 - **Reward Clipping**: Not applied (preserves score information)
 
+  ### Division of Work
+
+- **Prince**: Multi-game experiments (different Atari environments)
+- **Ivan**: Single-game systematic study (Assault with varied hyperparameters)
+- **Loic**: Single-game stability and performance study (Assault with varied LR, Batch, and Gamma)
+- **Armand**: Extreme parameter testing and boundary analysis
+
 ## Video Link
 [https://drive.google.com/file/d/1G7OOvgjd21MKkawv87bRmGZUifJ273Po/view?usp=sharing
 ](url)
