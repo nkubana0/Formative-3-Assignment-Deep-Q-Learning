@@ -402,71 +402,6 @@ python ivan_experiment.py --experiments 1 2 3 --timesteps 500000
 python ivan_experiment.py --timesteps 10000
 ```
 
-## Loic's Experiments
-
-### Experimental Design
-
-Loic conducted 10 hyperparameter experiments focusing on [INSERT YOUR EXPERIMENTAL FOCUS - e.g., "extreme parameter ranges to test DQN robustness" or "comparing different Atari games" or "stability vs performance trade-offs"].
-
-**Experimental Approach:** [INSERT YOUR METHODOLOGY - e.g., "I tested extreme hyperparameter values to identify breaking points and optimal ranges for DQN training"]
-
-| Exp | Name | Environment | Timesteps | LR | γ | Batch | ε Start | ε End | Exp Frac | Description |
-|-----|------|-------------|-----------|-----|------|-------|---------|---------|----------|-------------|
-| 1 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
-| 2 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
-| 3 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
-| 4 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
-| 5 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
-| 6 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
-| 7 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
-| 8 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
-| 9 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
-| 10 | [INSERT NAME] | [INSERT ENV] | [INSERT TS] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT DESCRIPTION] |
-
-### Observed Results
-
-| Exp | Training Time | Avg Reward (Last 100) | Max Reward | Convergence Episode | Status | Key Findings |
-|-----|--------------|----------------------|------------|---------------------|--------|--------------|
-| 1 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
-| 2 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
-| 3 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
-| 4 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
-| 5 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
-| 6 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
-| 7 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
-| 8 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
-| 9 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
-| 10 | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT] | [INSERT YOUR OBSERVATIONS] |
-
-### Analysis Summary
-
-**[INSERT YOUR MAIN ANALYSIS CATEGORY 1]:**
-[INSERT YOUR DETAILED ANALYSIS]
-
-**[INSERT YOUR MAIN ANALYSIS CATEGORY 2]:**
-[INSERT YOUR DETAILED ANALYSIS]
-
-**[INSERT YOUR MAIN ANALYSIS CATEGORY 3]:**
-[INSERT YOUR DETAILED ANALYSIS]
-
-**[INSERT YOUR MAIN ANALYSIS CATEGORY 4]:**
-[INSERT YOUR DETAILED ANALYSIS]
-
-**Overall Findings:**
-[INSERT YOUR OVERALL FINDINGS - What are the most important takeaways from your experiments?]
-
-**Key Insights:**
-1. [INSERT KEY INSIGHT 1]
-2. [INSERT KEY INSIGHT 2]
-3. [INSERT KEY INSIGHT 3]
-
-**To Run Loic's Experiments:**
-```bash
-python loic_experiment.py --timesteps 500000
-```
-
-**Note:** You need to create `loic_experiment.py` following the same pattern as `ivan_experiment.py` or `armand_experiment.py`
-
 ## Armand's Experiments
 
 ### Experimental Design
@@ -579,18 +514,10 @@ python armand_experiment.py --timesteps 10000
 
 ### Division of Work
 
-- **Prince**: Multi-game experiments (different Atari environments) ✅
+- **Prince**: Multi-game experiments (different Atari environments)
 - **Ivan**: Single-game systematic study (Assault with varied hyperparameters)
-- **Loic**: [TO BE DEFINED - e.g., "Policy comparison" or "Different reward structures"]
+- **Loic**: 
 - **Armand**: Extreme parameter testing and boundary analysis
-
-### Shared Insights
-
-[AFTER ALL EXPERIMENTS ARE COMPLETE, INSERT TEAM-LEVEL INSIGHTS HERE]
-- What patterns emerged across all 40 experiments?
-- Which hyperparameters matter most for Atari games?
-- How do different team members' findings complement each other?
-
 
 ## Monitoring Training
 
