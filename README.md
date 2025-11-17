@@ -12,8 +12,8 @@ This project implements a Deep Q-Network (DQN) agent to play the Atari Assault g
 
 - **Ivan Shema**
 - **Prince Rurangwa**
-- **Loic [Last Name]**
-- **Armand [Last Name]**
+- **Loic Cyusa**
+- **Armand Kayiranga**
 
 ## Environment: Assault
 
