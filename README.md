@@ -291,6 +291,67 @@ Batch size variations (16, 32, 64) showed negligible differences:
 
 **Observation**: At 50k timesteps, batch size primarily affects computational efficiency (~3% speed difference) rather than learning quality. Larger batches may show stability advantages in longer training.
 
+## Cyusa Loic's Experiments
+
+### Experimental Design
+
+I conducted 10 unique hyperparameter experiments on the `AssaultNoFrameskip-v4` environment. The goal was to test how different learning rates, batch sizes, and exploration strategies impact agent performance. Each experiment was run for 10,000 timesteps to quickly test the stability of the configuration.
+
+| Exp | Name | Environment | Timesteps | LR | γ | Batch | Exp Frac | ε End | Description |
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| 1 | My Baseline | AssaultNoFrameskip-v4 | 10,000 | 1e-4 | 0.99 | 32 | 0.1 | 0.01 | Standard DQN - baseline for comparison |
+| 2 | Slower LR | AssaultNoFrameskip-v4 | 10,000 | 7.5e-5 | 0.99 | 32 | 0.1 | 0.01 | Slower, but potentially more stable learning. |
+| 3 | Faster LR | AssaultNoFrameskip-v4 | 10,000 | 2.5e-4 | 0.99 | 32 | 0.1 | 0.01 | Faster learning, but may become unstable. |
+| 4 | Small Batch | AssaultNoFrameskip-v4 | 10,000 | 1e-4 | 0.99 | 16 | 0.1 | 0.01 | Noisier updates, but can sometimes learn faster. |
+| 5 | Small Batch & Fast LR | AssaultNoFrameskip-v4 | 10,000 | 2.5e-4 | 0.99 | 16 | 0.1 | 0.01 | A very volatile combo. May learn fast or fail. |
+| 6 | Large Batch & Slow LR | AssaultNoFrameskip-v4 | 10,000 | 7.5e-5 | 0.99 | 64 | 0.1 | 0.01 | Very stable, but might converge slowly. |
+| 7 | Short-Sighted | AssaultNoFrameskip-v4 | 10,000 | 1e-4 | 0.97 | 32 | 0.1 | 0.01 | Focuses more on immediate rewards. |
+| 8 | Longer Exploration | AssaultNoFrameskip-v4 | 10,000 | 1e-4 | 0.99 | 32 | 0.2 | 0.01 | Spends 20% of time exploring. |
+| 9 | Original DQN Epsilon | AssaultNoFrameskip-v4 | 10,000 | 1e-4 | 0.99 | 32 | 0.1 | 0.1 | Explores more; never fully greedy. |
+| 10 | My Combo | AssaultNoFrameskip-v4 | 10,000 | 2.5e-4 | 0.99 | 64 | 0.15 | 0.05 | A balanced 'fast and stable' attempt. |
+
+---
+
+### Observed Results
+
+All 10 experiments completed successfully, running in approximately 15-20 seconds each. However, due to the `learning_starts=50000` parameter in the `train.py` script, the 10,000-timestep duration was **insufficient to trigger any model training.** The agent only collected data in its replay buffer and did not perform any optimization.
+
+| Exp | Training Time | Status | Key Findings (at 10k timesteps) |
+|:---|:---|:---|:---|
+| 1 | ~17 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
+| 2 | ~17 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
+| 3 | ~17 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
+| 4 | ~17 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
+| 5 | ~20 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
+| 6 | ~16 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
+| 7 | ~16 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
+| 8 | ~17 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
+| 9 | ~17 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
+| 10 | ~15 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
+
+---
+
+### Analysis Summary
+
+**Critical Analysis Note: No learning occurred during these experiments.**
+
+The `train.py` script uses the standard Stable Baselines3 DQN default, where `learning_starts=50000`. This parameter defines that the agent must take **50,000 random steps** to fill its replay buffer *before* any training or optimization begins.
+
+Since all my experiments were set to a test duration of `timesteps=10000`, the training process finished before this 50,000-step threshold was reached.
+
+* **Conclusion:** The agent's performance in all 10 experiments was that of a **purely random agent**. No Q-values were updated, and no gradient descent steps were taken.
+* **Key Finding:** This demonstrates the critical importance of the `learning_starts` hyperparameter. While all 10 configurations were "stable" (i.e., they did not crash), no data on their learning performance could be gathered from this test run.
+* **Recommendation:** To obtain meaningful results for the assignment, these experiments **must be re-run** with a `timesteps` value significantly greater than 50,000. The `500,000` value used by my teammates and defined in the `README` is the correct target for gathering actual performance data.
+
+### To Run My Experiments
+
+```bash
+# To run the 10,000-timestep test (as documented above)
+python loic_experiments.py --timesteps 10000
+
+# To run the full 500,000-timestep training for actual results
+python loic_experiments.py --timesteps 500000
+
 **Exploration Strategy:**
 Exploration fraction differences were the only visible effect:
 - **Quick exploitation (0.05)**: Epsilon decayed to 0.01 by episode 100
