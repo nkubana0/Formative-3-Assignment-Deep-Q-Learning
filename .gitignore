@@ -22,7 +22,7 @@ env/
 .ipynb_checkpoints
 
 # Training outputs (keep structure but ignore large files)
-*.zip
+
 !requirements.txt
 
 # Logs (optional - keep if you want to share)
