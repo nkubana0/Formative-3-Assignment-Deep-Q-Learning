@@ -1,0 +1,62 @@
+{
+    "experiment_1": {
+        "model_path": "./models/experiment_01/best/best_model.zip",
+        "name": "My Baseline",
+        "peak_reward": 701.4,
+        "peak_timestep": 440000
+    },
+    "experiment_10": {
+        "model_path": "./models/experiment_10/best/best_model.zip",
+        "name": "My Combo",
+        "peak_reward": 669.8,
+        "peak_timestep": 160000
+    },
+    "experiment_2": {
+        "model_path": "./models/experiment_02/best/best_model.zip",
+        "name": "Slower LR",
+        "peak_reward": 682.4,
+        "peak_timestep": 480000
+    },
+    "experiment_3": {
+        "model_path": "./models/experiment_03/best/best_model.zip",
+        "name": "Faster LR",
+        "peak_reward": 692.4,
+        "peak_timestep": 320000
+    },
+    "experiment_4": {
+        "model_path": "./models/experiment_04/best/best_model.zip",
+        "name": "Small Batch",
+        "peak_reward": 407.4,
+        "peak_timestep": 400000
+    },
+    "experiment_5": {
+        "model_path": "./models/experiment_05/best/best_model.zip",
+        "name": "Small Batch & Fast LR",
+        "peak_reward": 646.6,
+        "peak_timestep": 440000
+    },
+    "experiment_6": {
+        "model_path": "./models/experiment_06/best/best_model.zip",
+        "name": "Large Batch & Slow LR",
+        "peak_reward": 709.4,
+        "peak_timestep": 320000
+    },
+    "experiment_7": {
+        "model_path": "./models/experiment_07/best/best_model.zip",
+        "name": "Short-Sighted",
+        "peak_reward": 470.4,
+        "peak_timestep": 400000
+    },
+    "experiment_8": {
+        "model_path": "./models/experiment_08/best/best_model.zip",
+        "name": "Longer Exploration",
+        "peak_reward": 709.8,
+        "peak_timestep": 400000
+    },
+    "experiment_9": {
+        "model_path": "./models/experiment_09/best/best_model.zip",
+        "name": "Original DQN Epsilon",
+        "peak_reward": 552.2,
+        "peak_timestep": 280000
+    }
+}

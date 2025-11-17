@@ -1,6 +1,6 @@
 """
 My 10 Hyperparameter Experiments for Assault
-- [Your Name]
+- Cyusa Loic
 """
 
 import subprocess
@@ -8,9 +8,7 @@ import json
 import os
 from datetime import datetime
 
-# ==============================================================================
-# 1. YOUR 10 UNIQUE HYPERPARAMETER CONFIGURATIONS
-# ==============================================================================
+
 MY_EXPERIMENTS = [
     {
         "id": 1,
