@@ -586,6 +586,10 @@ Videos are saved in the `videos/` directory.
 - **Epsilon-Greedy Exploration**: Decays from 1.0 to 0.01
 - **Reward Clipping**: Not applied (preserves score information)
 
+## Video Link
+[https://drive.google.com/file/d/1G7OOvgjd21MKkawv87bRmGZUifJ273Po/view?usp=sharing
+](url)
+
 ## References
 
 - [Playing Atari with Deep Reinforcement Learning (Mnih et al., 2013)](https://arxiv.org/abs/1312.5602)
