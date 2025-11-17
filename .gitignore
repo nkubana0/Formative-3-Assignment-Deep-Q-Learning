@@ -27,7 +27,6 @@ env/
 
 # Logs (optional - keep if you want to share)
 # logs/
-# models/
 
 # OS
 .DS_Store
