@@ -291,116 +291,6 @@ Batch size variations (16, 32, 64) showed negligible differences:
 
 **Observation**: At 50k timesteps, batch size primarily affects computational efficiency (~3% speed difference) rather than learning quality. Larger batches may show stability advantages in longer training.
 
-## Cyusa Loic's Experiments
-
-### Experimental Design
-
-I conducted 10 unique hyperparameter experiments on the `AssaultNoFrameskip-v4` environment. The goal was to test how different learning rates, batch sizes, and exploration strategies impact agent performance. Each experiment was run for 10,000 timesteps to quickly test the stability of the configuration.
-
-| Exp | Name | Environment | Timesteps | LR | γ | Batch | Exp Frac | ε End | Description |
-|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| 1 | My Baseline | AssaultNoFrameskip-v4 | 10,000 | 1e-4 | 0.99 | 32 | 0.1 | 0.01 | Standard DQN - baseline for comparison |
-| 2 | Slower LR | AssaultNoFrameskip-v4 | 10,000 | 7.5e-5 | 0.99 | 32 | 0.1 | 0.01 | Slower, but potentially more stable learning. |
-| 3 | Faster LR | AssaultNoFrameskip-v4 | 10,000 | 2.5e-4 | 0.99 | 32 | 0.1 | 0.01 | Faster learning, but may become unstable. |
-| 4 | Small Batch | AssaultNoFrameskip-v4 | 10,000 | 1e-4 | 0.99 | 16 | 0.1 | 0.01 | Noisier updates, but can sometimes learn faster. |
-| 5 | Small Batch & Fast LR | AssaultNoFrameskip-v4 | 10,000 | 2.5e-4 | 0.99 | 16 | 0.1 | 0.01 | A very volatile combo. May learn fast or fail. |
-| 6 | Large Batch & Slow LR | AssaultNoFrameskip-v4 | 10,000 | 7.5e-5 | 0.99 | 64 | 0.1 | 0.01 | Very stable, but might converge slowly. |
-| 7 | Short-Sighted | AssaultNoFrameskip-v4 | 10,000 | 1e-4 | 0.97 | 32 | 0.1 | 0.01 | Focuses more on immediate rewards. |
-| 8 | Longer Exploration | AssaultNoFrameskip-v4 | 10,000 | 1e-4 | 0.99 | 32 | 0.2 | 0.01 | Spends 20% of time exploring. |
-| 9 | Original DQN Epsilon | AssaultNoFrameskip-v4 | 10,000 | 1e-4 | 0.99 | 32 | 0.1 | 0.1 | Explores more; never fully greedy. |
-| 10 | My Combo | AssaultNoFrameskip-v4 | 10,000 | 2.5e-4 | 0.99 | 64 | 0.15 | 0.05 | A balanced 'fast and stable' attempt. |
-
----
-
-### Observed Results
-
-All 10 experiments completed successfully, running in approximately 15-20 seconds each. However, due to the `learning_starts=50000` parameter in the `train.py` script, the 10,000-timestep duration was **insufficient to trigger any model training.** The agent only collected data in its replay buffer and did not perform any optimization.
-
-| Exp | Training Time | Status | Key Findings (at 10k timesteps) |
-|:---|:---|:---|:---|
-| 1 | ~17 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
-| 2 | ~17 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
-| 3 | ~17 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
-| 4 | ~17 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
-| 5 | ~20 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
-| 6 | ~16 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
-| 7 | ~16 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
-| 8 | ~17 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
-| 9 | ~17 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
-| 10 | ~15 sec | Completed | Did not start learning. (10k < 50k `learning_starts`) |
-
----
-
-### Analysis Summary
-
-**Critical Analysis Note: No learning occurred during these experiments.**
-
-The `train.py` script uses the standard Stable Baselines3 DQN default, where `learning_starts=50000`. This parameter defines that the agent must take **50,000 random steps** to fill its replay buffer *before* any training or optimization begins.
-
-Since all my experiments were set to a test duration of `timesteps=10000`, the training process finished before this 50,000-step threshold was reached.
-
-* **Conclusion:** The agent's performance in all 10 experiments was that of a **purely random agent**. No Q-values were updated, and no gradient descent steps were taken.
-* **Key Finding:** This demonstrates the critical importance of the `learning_starts` hyperparameter. While all 10 configurations were "stable" (i.e., they did not crash), no data on their learning performance could be gathered from this test run.
-* **Recommendation:** To obtain meaningful results for the assignment, these experiments **must be re-run** with a `timesteps` value significantly greater than 50,000. The `500,000` value used by my teammates and defined in the `README` is the correct target for gathering actual performance data.
-
-### To Run My Experiments
-
-```bash
-# To run the 10,000-timestep test (as documented above)
-python loic_experiments.py --timesteps 10000
-
-# To run the full 500,000-timestep training for actual results
-python loic_experiments.py --timesteps 500000
-
-**Exploration Strategy:**
-Exploration fraction differences were the only visible effect:
-- **Quick exploitation (0.05)**: Epsilon decayed to 0.01 by episode 100
-- **Baseline (0.1)**: Standard decay schedule
-- **Extended exploration (0.2)**: Maintained epsilon=0.05 at episode 100 (vs 0.01 for others)
-- **Extreme exploration (0.4, Exp 8)**: Kept higher exploration rate throughout
-
-**Key Finding**: Exploration schedule was the only hyperparameter that showed measurable differences at 50k timesteps. Extended exploration maintained epsilon=0.05 vs 0.01, though final performance was still identical, suggesting the agent needs more time to benefit from continued exploration.
-
-**Overall Performance Metrics:**
-- **Training speed**: Consistent at ~1,250-1,500 FPS across all configurations
-- **Episode rewards**: All converged to ~259 (rollout) and 33.6 (evaluation)
-- **Episode length**: Stable at ~2,400 steps
-- **Convergence**: All experiments reached stable performance by episode 100
-
-**Critical Insight for Full Training:**
-This 50k test run demonstrates that Assault is a **robust environment** where hyperparameter effects only become significant with extended training:
-
-1. **Short-term learning (50k)**: Agent learns basic gameplay regardless of hyperparameters
-2. **Expected at 500k timesteps**: 
-   - Learning rate effects on convergence speed will emerge
-   - Gamma differences in strategic decision-making will appear
-   - Batch size impact on stability will become measurable
-   - Exploration strategies will show different final performance levels
-
-**Recommendation for 500K Run:**
-Based on the test run stability, I recommend prioritizing:
-1. Run all 10 experiments at full 500k timesteps
-2. Focus analysis on episodes 200-500 where differences should emerge
-3. Compare learning curves (not just final performance)
-4. Pay special attention to Experiments 2 (high LR) and 10 (aggressive) - they held up surprisingly well
-
-**Key Insights for Assault:**
-1. **Forgiving environment**: Assault tolerates a wide range of hyperparameters at early stages
-2. **Exploration matters most early**: Only hyperparameter showing visible effects at 50k timesteps
-3. **Need longer training**: Minimum 200k-500k timesteps to differentiate configurations
-4. **Baseline validation**: Standard hyperparameters (Exp 1) provide solid foundation
-
-**To Run Ivan's Experiments:**
-```bash
-# Run all experiments
-python ivan_experiment.py --timesteps 500000
-
-# Run specific experiments (e.g., 1, 2, 3)
-python ivan_experiment.py --experiments 1 2 3 --timesteps 500000
-
-# Quick test mode
-python ivan_experiment.py --timesteps 10000
-```
 
 ## Armand's Experiments
 
@@ -509,7 +399,68 @@ python armand_experiment.py --experiments 1 2 7 --timesteps 500000
 # Quick test mode
 python armand_experiment.py --timesteps 10000
 ```
+## Cyusa Loic's Experiments
 
+### Experimental Design
+
+I conducted 10 unique hyperparameter experiments on the `AssaultNoFrameskip-v4` environment, each run for 500,000 timesteps. The goal was to find the optimal combination of learning rate, batch size, discount factor, and exploration strategy for maximizing the evaluation score in Assault.
+
+| Exp | Name | Environment | Timesteps | LR | γ | Batch | Exp Frac | ε End | Description |
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| 1 | My Baseline | AssaultNoFrameskip-v4 | 500,000 | 1e-4 | 0.99 | 32 | 0.1 | 0.01 | Standard DQN - baseline for comparison |
+| 2 | Slower LR | AssaultNoFrameskip-v4 | 500,000 | 7.5e-5 | 0.99 | 32 | 0.1 | 0.01 | Slower, but potentially more stable learning. |
+| 3 | Faster LR | AssaultNoFrameskip-v4 | 500,000 | 2.5e-4 | 0.99 | 32 | 0.1 | 0.01 | Faster learning, but may become unstable. |
+| 4 | Small Batch | AssaultNoFrameskip-v4 | 500,000 | 1e-4 | 0.99 | 16 | 0.1 | 0.01 | Noisier updates, but can sometimes learn faster. |
+| 5 | Small Batch & Fast LR | AssaultNoFrameskip-v4 | 500,000 | 2.5e-4 | 0.99 | 16 | 0.1 | 0.01 | A very volatile combo. May learn fast or fail. |
+| 6 | Large Batch & Slow LR | AssaultNoFrameskip-v4 | 500,000 | 7.5e-5 | 0.99 | 64 | 0.1 | 0.01 | Very stable, but might converge slowly. |
+| 7 | Short-Sighted | AssaultNoFrameskip-v4 | 500,000 | 1e-4 | 0.97 | 32 | 0.1 | 0.01 | Focuses more on immediate rewards. |
+| 8 | Longer Exploration | AssaultNoFrameskip-v4 | 500,000 | 1e-4 | 0.99 | 32 | 0.2 | 0.01 | Spends 20% of time exploring. |
+| 9 | Original DQN Epsilon | AssaultNoFrameskip-v4 | 500,000 | 1e-4 | 0.99 | 32 | 0.1 | 0.1 | Explores more; never fully greedy. |
+| 10 | My Combo | AssaultNoFrameskip-v4 | 500,000 | 2.5e-4 | 0.99 | 64 | 0.15 | 0.05 | A balanced 'fast and stable' attempt. |
+
+---
+
+### Observed Results
+
+Full 500,000-timestep runs were completed for experiments 1-7. Experiments 8-10 are in progress. The "Peak Eval Reward" reflects the score of the `best_model.zip` saved by the `EvalCallback` during the run.
+
+| Exp | Name | Peak Eval Reward | Peak Timestep | Status | Key Findings |
+|:---|:---|:---|:---|:---|:---|
+| 1 | My Baseline | **701.4** | 440,000 | Completed | Very strong baseline, second-best performer. |
+| 2 | Slower LR | **682.4** | 480,000 | Completed | Stable, high-performing run. |
+| 3 | Faster LR | **692.4** | 320,000 | Completed | Strong performance, nearly matching baseline. |
+| 4 | Small Batch | **407.4** | 400,000 | Completed | Significantly underperformed, unstable. |
+| 5 | Small Batch & Fast LR | **646.6** | 440,000 | Completed | Volatile as expected, but achieved a decent peak. |
+| 6 | Large Batch & Slow LR | **709.4** | 320,000 | Completed | **Best performing model.** Stable and effective. |
+| 7 | Short-Sighted | **470.4** | 400,000 | Completed | Underperformed. Also showed overfitting (peak 470, final 420). |
+| 8 | Longer Exploration | *In Progress* | --- | Running | --- |
+| 9 | Original DQN Epsilon | *In Progress* | --- | Running | --- |
+| 10 | My Combo | *In Progress* | --- | Running | --- |
+
+---
+
+### Analysis Summary
+
+Based on the completed runs, a clear pattern emerged:
+
+* **Best Configuration (Winner):** **Experiment 6 ("Large Batch & Slow LR")** was the champion, achieving the highest evaluation score of **709.4**. The combination of a slower, more cautious learning rate (7.5e-5) and a larger batch size (64) for stabler gradient updates proved to be the most effective strategy for Assault.
+
+* **Strong Runners-Up:** **Experiment 1 ("My Baseline")** and **Experiment 3 ("Faster LR")** were also top-tier performers, scoring 701.4 and 692.4, respectively. This demonstrates that the environment is robust to learning rates between 1e-4 and 2.5e-4, as long as the batch size is adequate (32).
+
+* **What Didn't Work:**
+    * **Small Batch Size:** Using a batch size of 16 (Exp 4 & 5) was detrimental. Experiment 4 ("Small Batch") had one of the worst scores (407.4), indicating that noisy gradients from a small batch are harmful.
+    * **Low Gamma:** Experiment 7 ("Short-Sighted") also performed poorly (470.4). Lowering the discount factor to 0.97 made the agent too focused on immediate rewards, preventing it from learning the optimal long-term strategy required to achieve high scores.
+
+* **Stability is Key:** The winning model (Exp 6) prioritized stability (low LR, high batch). Conversely, the runs that performed poorly (Exp 4, Exp 7) suffered from instability (noisy gradients) or suboptimal strategy (low gamma). This suggests that mastering Assault requires a stable learning process that values long-term rewards.
+
+### To Run My Experiments
+
+```bash
+# To run the 10,000-timestep test (as documented above)
+python loic_experiments.py --timesteps 10000
+
+# To run the full 500,000-timestep training for actual results
+python loic_experiments.py --timesteps 500000
 ## Team Collaboration Notes
 
 ### Division of Work
