@@ -1,11 +1,13 @@
 """
 Hyperparameter Experiment Runner for Assault
 Runs 10 different configurations as required by assignment
+Models save to models/shema/ folder
 """
 
 import subprocess
 import json
 import os
+import shutil
 from datetime import datetime
 
 # 10 hyperparameter configurations for experiments
@@ -145,6 +147,7 @@ EXPERIMENTS = [
 def run_experiment(exp_config, env_name='AssaultNoFrameskip-v4', timesteps=500_000):
     """
     Run single experiment with specified configuration
+    Models save to models/shema/ folder
     """
     exp_id = exp_config['id']
     params = exp_config['params']
@@ -158,7 +161,10 @@ def run_experiment(exp_config, env_name='AssaultNoFrameskip-v4', timesteps=500_0
         print(f"  {key}: {value}")
     print(f"{'#'*80}\n")
     
-    # Build command
+    # Create shema directory if it doesn't exist
+    os.makedirs('./models/shema', exist_ok=True)
+    
+    # Build command - train.py will save to models/experiment_XX/
     cmd = [
         'python', 'train.py',
         '--env', env_name,
@@ -175,6 +181,16 @@ def run_experiment(exp_config, env_name='AssaultNoFrameskip-v4', timesteps=500_0
     # Run training
     try:
         result = subprocess.run(cmd, check=True)
+        
+        # After training, move/copy model to shema folder with descriptive name
+        source_path = f"./models/experiment_{exp_id:02d}/dqn_model.zip"
+        model_name = f"shema_exp_{exp_id}_{exp_config['name'].lower().replace(' ', '_')}_final.zip"
+        dest_path = f"./models/shema/{model_name}"
+        
+        if os.path.exists(source_path):
+            shutil.copy2(source_path, dest_path)
+            print(f"✓ Model copied to {dest_path}")
+        
         print(f"\n✓ Experiment {exp_id} completed successfully!\n")
         return True
     except subprocess.CalledProcessError as e:
@@ -199,9 +215,9 @@ def save_experiment_configs():
     """
     Save configurations to JSON
     """
-    with open('experiment_configs.json', 'w') as f:
+    with open('ivan_experiment_configs.json', 'w') as f:
         json.dump(EXPERIMENTS, f, indent=2)
-    print("✓ Configurations saved to experiment_configs.json")
+    print("✓ Configurations saved to ivan_experiment_configs.json")
 
 if __name__ == "__main__":
     import argparse
@@ -221,9 +237,9 @@ if __name__ == "__main__":
     if args.generate_table:
         table = generate_results_table()
         print(table)
-        with open('experiment_results_template.md', 'w') as f:
+        with open('ivan_experiment_results_template.md', 'w') as f:
             f.write(table)
-        print("\n✓ Table saved to experiment_results_template.md")
+        print("\n✓ Table saved to ivan_experiment_results_template.md")
     else:
         save_experiment_configs()
         
@@ -237,6 +253,7 @@ if __name__ == "__main__":
         print(f"Running {len(experiments_to_run)} experiments on Assault")
         print(f"Environment: {args.env}")
         print(f"Timesteps: {args.timesteps:,}")
+        print(f"Models will be saved to: ./models/shema/")
         print(f"{'='*80}\n")
         
         # Run experiments
@@ -250,7 +267,7 @@ if __name__ == "__main__":
             }
         
         # Save results
-        with open('experiment_results.json', 'w') as f:
+        with open('ivan_experiment_results.json', 'w') as f:
             json.dump(results, f, indent=2)
         
         # Summary
@@ -260,5 +277,6 @@ if __name__ == "__main__":
         successful = sum(1 for r in results.values() if r['success'])
         print(f"Successful: {successful}/{len(results)}")
         print(f"Failed: {len(results) - successful}/{len(results)}")
-        print(f"\nResults saved to experiment_results.json")
+        print(f"\nResults saved to ivan_experiment_results.json")
+        print(f"Models saved to ./models/shema/")
         print(f"{'='*80}\n")
